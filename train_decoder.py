@@ -64,8 +64,9 @@ def train(
     model_jagged_mode=True,
     vae_hf_model_name="edobotta/rqvae-amazon-beauty"
 ):  
-    if dataset != RecDataset.AMAZON:
-        raise Exception(f"Dataset currently not supported: {dataset}.")
+    # Remove dataset restriction to support MovieLens datasets
+    # if dataset != RecDataset.AMAZON:
+    #     raise Exception(f"Dataset currently not supported: {dataset}.")
 
     if wandb_logging:
         params = locals()
