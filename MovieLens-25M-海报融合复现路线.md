@@ -18,8 +18,9 @@
 
 ### 2.2 批量下载电影海报
 - 利用 `links.csv` 获取每部电影的 TMDB id。
-- 使用 TMDB API 批量下载电影海报图片，保存为 `posters/{movieId}.jpg`。
+- 使用 TMDB API 批量下载电影海报图片，保存为 `dataset/ml-25m/posters/{movieId}.jpg`。
 - 下载失败的海报信息会被即时记录到 `./experiments/failed_posters.txt` 文件中，便于后续重试和排查。
+- **注意：所有海报图片现在统一存放在 `dataset/ml-25m/posters/` 目录下。**
 
 **代码示例：experiments/download_posters.py**
 ```python
@@ -32,7 +33,7 @@ TMDB_API_KEY = 'f435dc1a3c7093347b7c3a22f5395d02'  # 替换为你的TMDB API Key
 TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
 
 LINKS_CSV = 'dataset/ml-25m/links.csv'
-POSTER_DIR = 'posters'
+POSTER_DIR = 'dataset/ml-25m/posters'
 
 os.makedirs(POSTER_DIR, exist_ok=True)
 
@@ -79,6 +80,7 @@ if __name__ == '__main__':
 ### 2.3 图像特征提取
 - 使用预训练的图像模型（如 `ResNet50`, `ViT`, `CLIP` 等）提取每张海报的特征向量（如 2048/768 维）。
 - 将每部电影的图像特征与原有的元数据特征拼接或融合，作为最终的物品特征输入 RQ-VAE。
+- **注意：特征提取脚本默认从 `dataset/ml-25m/posters/` 目录读取图片。**
 
 **代码示例：experiments/poster_features.py**
 ```python
@@ -118,7 +120,7 @@ if __name__ == "__main__":
     import pandas as pd
     movies = pd.read_csv('dataset/ml-25m/movies.csv')
     movie_ids = movies['movieId'].values
-    extract_poster_features('posters', movie_ids, 'dataset/ml25m_poster_features.npy')
+    extract_poster_features('dataset/ml-25m/posters', movie_ids, 'dataset/ml25m_poster_features.npy')
 ```
 
 ---
@@ -218,7 +220,9 @@ def train(..., dataset='ml25m', dataset_folder='dataset/ml-25m', poster_feature_
 1. **下载 MovieLens-25M 数据集**
 2. **运行 experiments/download_posters.py 批量下载电影海报**
    - 下载失败的海报会被记录到 `./experiments/failed_posters.txt`。
+   - **所有海报图片存放在 `dataset/ml-25m/posters/`。**
 3. **运行 experiments/poster_features.py 提取海报特征**
+   - 默认从 `dataset/ml-25m/posters/` 读取图片。
 4. **用 experiments/ml25m.py 融合元数据和海报特征，生成最终物品特征**
 5. **配置 gin 文件，指定特征维度和路径**
 6. **运行 train_rqvae.py 和 train_decoder.py 进行训练**

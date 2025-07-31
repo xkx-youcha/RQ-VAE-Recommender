@@ -40,4 +40,4 @@ if __name__ == "__main__":
     # 假设你已下载好movies.csv和海报图片
     movies = pd.read_csv('dataset/ml-25m/movies.csv')
     movie_ids = movies['movieId'].values
-    extract_poster_features('posters', movie_ids, 'dataset/ml25m_poster_features.npy')
+    extract_poster_features('dataset/ml-25m/posters', movie_ids, 'dataset/ml25m_poster_features.npy')

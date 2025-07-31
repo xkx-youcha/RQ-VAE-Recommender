@@ -7,7 +7,7 @@ TMDB_API_KEY = 'f435dc1a3c7093347b7c3a22f5395d02'  # 替换为你的TMDB API Key
 TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500'
 
 LINKS_CSV = 'dataset/ml-25m/links.csv'
-POSTER_DIR = 'posters'
+POSTER_DIR = 'dataset/ml-25m/posters'
 
 os.makedirs(POSTER_DIR, exist_ok=True)
 
