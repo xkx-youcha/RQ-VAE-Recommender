@@ -1,0 +1,10 @@
+train.decoder_embed_dim = 128
+train.attn_embed_dim = 512
+train.attn_heads = 8
+train.attn_layers = 8
+train.batch_size = 256
+train.iterations = 200000
+train.learning_rate = 0.0003
+train.dataset = 'ml25m'
+train.dataset_folder = 'dataset/ml-25m'
+train.poster_feature_path = 'dataset/ml25m_poster_features.npy'
